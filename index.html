@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário de Ajuda</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fcfcfc;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; 
+  position: relative; 
+  color: white; 
+}
+
+.container {
+  width: 46%;
+  text-align: center;
+  background-color: #2d2d2d;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(250, 250, 250, 0.1);
+}
+
+form {
+  margin-top: 40px;
+  font-size: 18px;
+}   
+
+input[type="text"],
+textarea {
+  width: 90%;
+  padding: 15px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #8c8c8c;
+  border-radius: 3px;
+  background-color: #555555;
+  color: white;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.message {
+  color: green;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.watermark {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 19px;
+  color: rgb(148, 147, 147);
+}
+</style>
+</head>
+<body>
+<img src="10967529.jpg">
+<div class="container">
+  <h2>Priorização de casos</h2>
+  <form id="helpForm">
+    <label for="name">Nome do agente:</label>
+    <input type="text" id="name" name="name" required><br>
+    <label for="case">Informe o ticket e o caso:</label>
+    <textarea id="case" name="case" rows="4" required></textarea><br>
+    <label for="priority">Pedido (1P ou 3P):</label> <!-- Novo campo adicionado -->
+    <input type="text" id="priority" name="priority" required><br> <!-- Novo campo adicionado -->
+    <button type="submit">Enviar</button>
+  </form>
+  <div class="message" id="successMessage" style="display: none;">Dados enviados com sucesso!</div>
+</div>
+<script>
+const form = document.getElementById('helpForm');
+const successMessage = document.getElementById('successMessage');
+
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+  
+  const formData = new FormData(this);
+  const jsonData = {
+    'Nome do agente': formData.get('name'), // Coluna A
+    'Ticket e caso': formData.get('case'),   // Coluna B
+    'Prioridade': formData.get('priority')   // Coluna C
+  };
+
+  fetch('https://api.sheetmonkey.io/form/4FvgisL6C35HVTfQeqX5VD', {
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify(jsonData),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      console.log('Formulário enviado com sucesso!');
+      successMessage.style.display = 'block';
+      form.reset();
+    } else {
+      console.error('Erro ao enviar o formulário:', response.statusText);
+    }
+  })
+  .catch(error => console.error('Erro ao enviar o formulário:', error));
+});
+</script>
+</body>
+</html>
