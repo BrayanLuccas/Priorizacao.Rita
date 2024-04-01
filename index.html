@@ -79,11 +79,12 @@ img {
 }
 
 .watermark {
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   right: 10px;
-  font-size: 19px;
-  color: rgb(148, 147, 147);
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.5); /* Alterado para branco semi-transparente */
+  z-index: 9999; /* Aumentado o valor de z-index */
 }
 </style>
 </head>
@@ -102,6 +103,7 @@ img {
   </form>
   <div class="message" id="successMessage" style="display: none;">Dados enviados com sucesso!</div>
 </div>
+<span class="watermark">Developed by Brayan Lucas</span>
 <script>
 const form = document.getElementById('helpForm');
 const successMessage = document.getElementById('successMessage');
