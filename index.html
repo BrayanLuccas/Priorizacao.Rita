@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Formulário de Ajuda</title>
+<link rel="icon" href="fiveicon.png" type="image/x-icon">
 <style>
 body {
   font-family: Arial, sans-serif;
@@ -83,8 +84,8 @@ img {
   bottom: 10px;
   right: 10px;
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.5); /* Alterado para branco semi-transparente */
-  z-index: 9999; /* Aumentado o valor de z-index */
+  color: rgba(255, 255, 255, 0.5); 
+  z-index: 9999; 
 }
 </style>
 </head>
@@ -97,8 +98,8 @@ img {
     <input type="text" id="name" name="name" required><br>
     <label for="case">Informe o ticket e o caso:</label>
     <textarea id="case" name="case" rows="4" required></textarea><br>
-    <label for="priority">Pedido (1P ou 3P):</label> <!-- Novo campo adicionado -->
-    <input type="text" id="priority" name="priority" required><br> <!-- Novo campo adicionado -->
+    <label for="priority">Pedido (1P ou 3P):</label> 
+    <input type="text" id="priority" name="priority" required><br> 
     <button type="submit">Enviar</button>
   </form>
   <div class="message" id="successMessage" style="display: none;">Dados enviados com sucesso!</div>
@@ -113,9 +114,9 @@ form.addEventListener('submit', function(event) {
   
   const formData = new FormData(this);
   const jsonData = {
-    'Nome do agente': formData.get('name'), // Coluna A
-    'Ticket e caso': formData.get('case'),   // Coluna B
-    'Prioridade': formData.get('priority')   // Coluna C
+    'Nome do agente': formData.get('name'), 
+    'Ticket e caso': formData.get('case'),   
+    'Prioridade': formData.get('priority')   
   };
 
   fetch('https://api.sheetmonkey.io/form/4FvgisL6C35HVTfQeqX5VD', {
@@ -131,6 +132,10 @@ form.addEventListener('submit', function(event) {
       console.log('Formulário enviado com sucesso!');
       successMessage.style.display = 'block';
       form.reset();
+      
+      setTimeout(function() {
+        successMessage.style.display = 'none';
+      }, 10000);
     } else {
       console.error('Erro ao enviar o formulário:', response.statusText);
     }
